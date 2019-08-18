@@ -58,9 +58,9 @@ Kerbal Space Program (video game)
 Galacticraft (Minecraft mod)
 
 ## Dependencies:
-default
-bucket
-stairs
+* default
+* bucket
+* stairs
 
 ## Licensing and Credit:
 The code is licensed as MIT and the media as CC-BY-SA-3.0, except for "rocket.png", which is licensed as CC-BY-SA-4.0.

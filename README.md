@@ -5,25 +5,25 @@ Minetest has many great space mods that add in outer space thousands of blocks a
 ## Controls overview
 
 ### Vertical mode
-A -- yaw left
-D -- yaw right
-W -- go forwards
-S -- go backwards
-Space -- move/accelerate upwards
-Space+Shift -- enable cruise mode
-Shift -- disable cruise mode
-A+D -- switch to horizontal mode
+* A -- yaw left
+* D -- yaw right
+* W -- go forwards
+* S -- go backwards
+* Space -- move/accelerate upwards
+* Space+Shift -- enable cruise mode
+* Shift -- disable cruise mode
+* A+D -- switch to horizontal mode
 
 ### Horizontal mode
-A -- yaw left
-D -- yaw right
-W -- move/accelerate forwards
-S -- brake
-Space -- go upwards
-Shift -- go downwards
-W+S -- enable cruise mode
-S -- disable cruise mode
-A+D -- switch to vertical mode
+* A -- yaw left
+* D -- yaw right
+* W -- move/accelerate forwards
+* S -- brake
+* Space -- go upwards
+* Shift -- go downwards
+* W+S -- enable cruise mode
+* S -- disable cruise mode
+* A+D -- switch to vertical mode
 
 ## Controls explained
 

@@ -54,8 +54,8 @@ Press space to go up and shift to go down. You cannot travel vertically nearly a
 Press A and D at the same time to switch to vertical mode. After pressing A and D, right click once. To avoid any potential glitches, right click again twice very quickly. Be prepared to be affected by gravity again after you right click the first time.
 
 ## Inspirations
-Kerbal Space Program (video game)
-Galacticraft (Minecraft mod)
+* Kerbal Space Program (video game)
+* Galacticraft (Minecraft mod)
 
 ## Dependencies:
 * default

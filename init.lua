@@ -380,7 +380,7 @@ local sideways_rocket = {
 		hp_max = 50,
 		physical = true,
 		collide_with_objects = false, -- Workaround fix for a MT engine bug
-		collisionbox = {-0.9, 0.0, -2.5, 0.9, 1.85, 2.5},
+		collisionbox = {-1, 0, -1, 1, 1.85, 1}, --old collison box (was ok sometimes, but did not turn): {-0.9, 0.0, -2.5, 0.9, 1.85, 2.5},
 		visual = "mesh",
 		mesh = "sideways_rocket.obj",
 		visual_size = {x = 1.0, y = 1.0, z = 1.0},

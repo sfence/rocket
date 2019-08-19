@@ -338,7 +338,7 @@ function rocket.on_step(self, dtime)
 	end
 	]]
 
-    	--Crash landing
+	--Crash landing
 	local p = self.object:getpos()
 	
 	local p1 = self.object:getpos()
@@ -610,6 +610,67 @@ function sideways_rocket.on_step(self, dtime)
 		new_acce = {x = 0, y = 10, z = 0}
 	end
 	]]
+
+	--Crashing
+	local p = self.object:getpos()
+	local p1 = p
+	p1.x = p1.x + 2
+	local p2 = p
+	p2.x = p2.x - 2
+	local p3 = p
+	p3.z = p3.z + 2
+	local p4 = p
+	p4.x = p4.x - 2
+	if minetest.get_node(p1).name ~= "air" and minetest.get_node(p1).name ~= "vacuum:vacuum" and self.v > 10 then
+		self.object:remove()
+		if driver_objref then
+			default.player_set_animation(driver_objref, "stand" , 30)
+			driver_objref:set_detach()
+		end
+		tnt.boom(p, {
+			radius = 3,
+			damage_radius = 6,
+			sound = "tnt_explode",
+			explode_center = false,
+		})
+	elseif minetest.get_node(p2).name ~= "air" and minetest.get_node(p2).name ~= "vacuum:vacuum" and self.v > 10 then
+		self.object:remove()
+		if driver_objref then
+			default.player_set_animation(driver_objref, "stand" , 30)
+			driver_objref:set_detach()
+		end
+		tnt.boom(p, {
+			radius = 3,
+			damage_radius = 6,
+			sound = "tnt_explode",
+			explode_center = false,
+		})
+		driver_objref:set_detach()
+	elseif minetest.get_node(p3).name ~= "air" and minetest.get_node(p3).name ~= "vacuum:vacuum" and self.v > 10 then
+		self.object:remove()
+		if driver_objref then
+			default.player_set_animation(driver_objref, "stand" , 30)
+			driver_objref:set_detach()
+		end
+		tnt.boom(p, {
+			radius = 3,
+			damage_radius = 6,
+			sound = "tnt_explode",
+			explode_center = false,
+		})
+	elseif minetest.get_node(p4).name ~= "air" and minetest.get_node(p4).name ~= "vacuum:vacuum" and self.v > 10 then
+		self.object:remove()
+		if driver_objref then
+			default.player_set_animation(driver_objref, "stand" , 30)
+			driver_objref:set_detach()
+		end
+		tnt.boom(p, {
+			radius = 3,
+			damage_radius = 6,
+			sound = "tnt_explode",
+			explode_center = false,
+		})
+	end
 
 	self.object:setpos(self.object:getpos())
 	self.object:setvelocity(get_velocity(self.v, self.object:getyaw(), self.vy))

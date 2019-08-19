@@ -338,6 +338,33 @@ function rocket.on_step(self, dtime)
 	end
 	]]
 
+    	--Crash landing
+	local p = self.object:getpos()
+	
+	local p1 = self.object:getpos()
+	p1.y = p1.y - 1
+	if minetest.get_node(p1).name ~= "air" and minetest.get_node(p1).name ~= "vacuum:vacuum" and self.vy < -10 then
+		tnt.boom(p1, {
+			radius = 3,
+			damage_radius = 6,
+			sound = "tnt_explode",
+			explode_center = false,
+		})
+		self.object:remove()
+	end
+
+	local p2 = self.object:getpos()
+	p2.y = p2.y + 5
+	if minetest.get_node(p2).name ~= "air" and minetest.get_node(p2).name ~= "vacuum:vacuum" and self.vy > -10 then
+		tnt.boom(p2, {
+			radius = 3,
+			damage_radius = 6,
+			sound = "tnt_explode",
+			explode_center = false,
+		})
+		self.object:remove()
+	end
+
 	self.object:setpos(self.object:getpos())
 	self.object:setvelocity(get_velocity(self.v, self.object:getyaw(), self.vy))
 	self.object:setacceleration(new_acce)

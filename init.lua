@@ -121,8 +121,10 @@ function rocket.on_step(self, dtime)
 	if self.driver then
 		local driver_objref = minetest.get_player_by_name(self.driver)
 		if driver_objref then
-			--DOES NOT WORK--> Oxygen system, for when in space or an unbreathable atmosphere
-			--self.driver:set_breath(11)
+			if driver_objref:get_breath() < 11 then
+				--Oxygen system, for when in space or an unbreathable atmosphere
+				driver_objref:set_breath(11)
+			end
 			local ctrl = driver_objref:get_player_control()
 			if ctrl.jump and ctrl.sneak then --if ctrl.up and ctrl.down then
 				if not self.auto then
@@ -471,6 +473,10 @@ function sideways_rocket.on_step(self, dtime)
 	if self.driver then
 		local driver_objref = minetest.get_player_by_name(self.driver)
 		if driver_objref then
+			if driver_objref:get_breath() < 11 then
+				--Oxygen system, for when in space or an unbreathable atmosphere
+				driver_objref:set_breath(11)
+			end
 			local ctrl = driver_objref:get_player_control()
 			if ctrl.up and ctrl.down then
 				if not self.auto then

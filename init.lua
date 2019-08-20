@@ -342,10 +342,14 @@ function rocket.on_step(self, dtime)
 
 	--Crash landing
 	local p = self.object:getpos()
+	local vacuum = "air"
+	if(minetest.get_modpath("vacuum")) ~= nil then
+		vacuum = "vacuum:vacuum"
+	end
 	
-	local p1 = self.object:getpos()
+	local p1 = p
 	p1.y = p1.y - 1
-	if minetest.get_node(p1).name ~= "air" and minetest.get_node(p1).name ~= "vacuum:vacuum" and self.vy < -10 then
+	if minetest.get_node(p1).name ~= "air" and minetest.get_node(p1).name ~= vacuum and self.vy < -10 then
 		tnt.boom(p1, {
 			radius = 3,
 			damage_radius = 6,
@@ -355,9 +359,9 @@ function rocket.on_step(self, dtime)
 		self.object:remove()
 	end
 
-	local p2 = self.object:getpos()
+	local p2 = p
 	p2.y = p2.y + 5
-	if minetest.get_node(p2).name ~= "air" and minetest.get_node(p2).name ~= "vacuum:vacuum" and self.vy > -10 then
+	if minetest.get_node(p2).name ~= "air" and minetest.get_node(p2).name ~= vacuum and self.vy > -10 then
 		tnt.boom(p2, {
 			radius = 3,
 			damage_radius = 6,
@@ -619,6 +623,10 @@ function sideways_rocket.on_step(self, dtime)
 
 	--Crashing
 	local p = self.object:getpos()
+	local vacuum = "air"
+	if(minetest.get_modpath("vacuum")) ~= nil then
+		vacuum = "vacuum:vacuum"
+	end
 	local p1 = p
 	p1.x = p1.x + 2
 	local p2 = p
@@ -627,7 +635,7 @@ function sideways_rocket.on_step(self, dtime)
 	p3.z = p3.z + 2
 	local p4 = p
 	p4.x = p4.x - 2
-	if minetest.get_node(p1).name ~= "air" and minetest.get_node(p1).name ~= "vacuum:vacuum" and self.v > 10 then
+	if minetest.get_node(p1).name ~= "air" and minetest.get_node(p1).name ~= vacuum and self.v > 10 then
 		self.object:remove()
 		if driver_objref then
 			default.player_set_animation(driver_objref, "stand" , 30)
@@ -639,7 +647,7 @@ function sideways_rocket.on_step(self, dtime)
 			sound = "tnt_explode",
 			explode_center = false,
 		})
-	elseif minetest.get_node(p2).name ~= "air" and minetest.get_node(p2).name ~= "vacuum:vacuum" and self.v > 10 then
+	elseif minetest.get_node(p2).name ~= "air" and minetest.get_node(p2).name ~= vacuum and self.v > 10 then
 		self.object:remove()
 		if driver_objref then
 			default.player_set_animation(driver_objref, "stand" , 30)
@@ -652,7 +660,7 @@ function sideways_rocket.on_step(self, dtime)
 			explode_center = false,
 		})
 		driver_objref:set_detach()
-	elseif minetest.get_node(p3).name ~= "air" and minetest.get_node(p3).name ~= "vacuum:vacuum" and self.v > 10 then
+	elseif minetest.get_node(p3).name ~= "air" and minetest.get_node(p3).name ~= vacuum and self.v > 10 then
 		self.object:remove()
 		if driver_objref then
 			default.player_set_animation(driver_objref, "stand" , 30)
@@ -664,7 +672,7 @@ function sideways_rocket.on_step(self, dtime)
 			sound = "tnt_explode",
 			explode_center = false,
 		})
-	elseif minetest.get_node(p4).name ~= "air" and minetest.get_node(p4).name ~= "vacuum:vacuum" and self.v > 10 then
+	elseif minetest.get_node(p4).name ~= "air" and minetest.get_node(p4).name ~= vacuum and self.v > 10 then
 		self.object:remove()
 		if driver_objref then
 			default.player_set_animation(driver_objref, "stand" , 30)

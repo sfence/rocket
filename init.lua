@@ -110,6 +110,18 @@ function rocket.on_rightclick(self, clicker)
 			default.player_set_animation(clicker, "stand" , 30)
 		end)
 		clicker:set_look_horizontal(self.object:getyaw())
+		--[[
+		Fuel Display Hud (abandoned)
+		local fuel_display = clicker:hud_add({ --HUD
+			hud_elem_type = "text",
+			position      = {x = 0.5, y = 0.5},
+			offset        = {x = 0,   y = 0},
+			text          = "Hello world!",
+			alignment     = {x = 0, y = 0},
+			scale         = {x = 100, y = 100},
+		})
+		clicker:hud_remove(fuel_display) --HUD
+		]]
 	end
 end
 
@@ -347,7 +359,7 @@ function rocket.on_step(self, dtime)
 		vacuum = "vacuum:vacuum"
 	end
 	
-	local p1 = p
+	local p1 = self.object:getpos()
 	p1.y = p1.y - 1
 	if minetest.get_node(p1).name ~= "air" and minetest.get_node(p1).name ~= vacuum and self.vy < -10 then
 		tnt.boom(p1, {
@@ -359,7 +371,7 @@ function rocket.on_step(self, dtime)
 		self.object:remove()
 	end
 
-	local p2 = p
+	local p2 = self.object:getpos()
 	p2.y = p2.y + 5
 	if minetest.get_node(p2).name ~= "air" and minetest.get_node(p2).name ~= vacuum and self.vy > -10 then
 		tnt.boom(p2, {
@@ -627,13 +639,13 @@ function sideways_rocket.on_step(self, dtime)
 	if(minetest.get_modpath("vacuum")) ~= nil then
 		vacuum = "vacuum:vacuum"
 	end
-	local p1 = p
+	local p1 = self.object:getpos()
 	p1.x = p1.x + 2
-	local p2 = p
+	local p2 = self.object:getpos()
 	p2.x = p2.x - 2
-	local p3 = p
+	local p3 = self.object:getpos()
 	p3.z = p3.z + 2
-	local p4 = p
+	local p4 = self.object:getpos()
 	p4.x = p4.x - 2
 	if minetest.get_node(p1).name ~= "air" and minetest.get_node(p1).name ~= vacuum and self.v > 10 then
 		self.object:remove()
@@ -659,7 +671,6 @@ function sideways_rocket.on_step(self, dtime)
 			sound = "tnt_explode",
 			explode_center = false,
 		})
-		driver_objref:set_detach()
 	elseif minetest.get_node(p3).name ~= "air" and minetest.get_node(p3).name ~= vacuum and self.v > 10 then
 		self.object:remove()
 		if driver_objref then
@@ -791,7 +802,7 @@ minetest.register_craft({
     recipe = {
         {"default:steel_ingot", "default:steel_ingot", "default:steel_ingot"},
         {"", "default:steelblock", ""},
-        {"default:steelblock", "bucket:bucket_lava", "default:steelblock"}
+        {"default:steelblock", "fire:flint_and_steel", "default:steelblock"}
     }
 })
 
@@ -799,9 +810,9 @@ minetest.register_craft({
     type = "shaped",
     output = "rocket:rocket_hull",
     recipe = {
-        {"default:steelblock", "default:glass", "default:steelblock"},
-        {"default:steelblock", "default:glass", "default:steelblock"},
-        {"default:steelblock", "default:glass", "default:steelblock"}
+        {"default:steelblock", "rocket:bucket_rocket_fuel", "default:steelblock"},
+        {"default:steelblock", "rocket:bucket_rocket_fuel", "default:steelblock"},
+        {"default:steelblock", "rocket:bucket_rocket_fuel", "default:steelblock"}
     }
 })
 
@@ -823,4 +834,233 @@ minetest.register_craft({
         {"", "rocket:rocket_hull", ""},
         {"rocket:rocket_left_fin", "rocket:rocket_thruster", "rocket:rocket_right_fin"}
     }
+})
+
+--Liquids
+
+--Oil
+minetest.register_node("rocket:oil_source", {
+	description = "Oil Source",
+	drawtype = "liquid",
+	tiles = {
+		{
+			name = "rocket_oil_source_animated.png",
+			animation = {
+				type = "vertical_frames",
+				aspect_w = 16,
+				aspect_h = 16,
+				length = 2.0,
+			},
+		},
+	},
+	special_tiles = {
+		-- New-style water source material (mostly unused)
+		{
+			name = "rocket_oil_source_animated.png",
+			animation = {
+				type = "vertical_frames",
+				aspect_w = 16,
+				aspect_h = 16,
+				length = 2.0,
+			},
+			backface_culling = false,
+		},
+	},
+	alpha = 160,
+	paramtype = "light",
+	walkable = false,
+	pointable = false,
+	diggable = false,
+	buildable_to = true,
+	is_ground_content = false,
+	drop = "",
+	drowning = 1,
+	liquidtype = "source",
+	liquid_alternative_flowing = "rocket:oil_flowing",
+	liquid_alternative_source = "rocket:oil_source",
+	liquid_viscosity = 1,
+	post_effect_color = {a = 103, r = 45, g = 23, b = 7},
+	groups = {oil = 3, liquid = 1, flammable = 1},
+	sounds = default.node_sound_water_defaults(),
+})
+minetest.register_node("rocket:oil_flowing", {
+	description = "Flowing Oil",
+	drawtype = "flowingliquid",
+	tiles = {"rocket_oil_source.png"},
+	special_tiles = {
+		{
+			name = "rocket_oil_flowing_animated.png",
+			backface_culling = false,
+			animation = {
+				type = "vertical_frames",
+				aspect_w = 16,
+				aspect_h = 16,
+				length = 0.8,
+			},
+		},
+		{
+			name = "rocket_oil_flowing_animated.png",
+			backface_culling = true,
+			animation = {
+				type = "vertical_frames",
+				aspect_w = 16,
+				aspect_h = 16,
+				length = 0.8,
+			},
+		},
+	},
+	alpha = 160,
+	paramtype = "light",
+	paramtype2 = "flowingliquid",
+	walkable = false,
+	pointable = false,
+	diggable = false,
+	buildable_to = true,
+	is_ground_content = false,
+	drop = "",
+	drowning = 1,
+	liquidtype = "flowing",
+	liquid_alternative_flowing = "rocket:oil_flowing",
+	liquid_alternative_source = "rocket:oil_source",
+	liquid_viscosity = 1,
+	post_effect_color = {a = 150, r = 45, g = 23, b = 7},
+	groups = {oil = 3, liquid = 1, flammable = 1, not_in_creative_inventory = 1},
+	sounds = default.node_sound_water_defaults(),
+})
+
+bucket.register_liquid(
+	"rocket:oil_source",
+	"rocket:oil_flowing",
+	"rocket:bucket_oil",
+	"rocket_bucket_oil.png",
+	"Oil Bucket"
+)
+
+--Oil ore
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "rocket:oil_source",
+		wherein        = "default:stone",
+		clust_scarcity = 17 * 17 * 17,
+		clust_num_ores = 4,
+		clust_size     = 3,
+		y_min          = -255,
+		y_max          = -128,
+	})
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "rocket:oil_source",
+		wherein        = "default:stone",
+		clust_scarcity = 15 * 15 * 15,
+		clust_num_ores = 4,
+		clust_size     = 3,
+		y_min          = -31000,
+		y_max          = -256,
+	})
+
+--Rocket fuel
+minetest.register_node("rocket:rocket_fuel_source", {
+	description = "Rocket Fuel Source",
+	drawtype = "liquid",
+	tiles = {
+		{
+			name = "rocket_rocket_fuel_source_animated.png",
+			animation = {
+				type = "vertical_frames",
+				aspect_w = 16,
+				aspect_h = 16,
+				length = 2.0,
+			},
+		},
+	},
+	special_tiles = {
+		-- New-style water source material (mostly unused)
+		{
+			name = "rocket_rocket_fuel_source_animated.png",
+			animation = {
+				type = "vertical_frames",
+				aspect_w = 16,
+				aspect_h = 16,
+				length = 2.0,
+			},
+			backface_culling = false,
+		},
+	},
+	alpha = 160,
+	paramtype = "light",
+	walkable = false,
+	pointable = false,
+	diggable = false,
+	buildable_to = true,
+	is_ground_content = false,
+	drop = "",
+	drowning = 1,
+	liquidtype = "source",
+	liquid_alternative_flowing = "rocket:rocket_fuel_flowing",
+	liquid_alternative_source = "rocket:rocket_fuel_source",
+	liquid_viscosity = 1,
+	post_effect_color = {a = 103, r = 254, g = 0, b = 30},
+	groups = {oil = 3, liquid = 1, flammable = 1},
+	sounds = default.node_sound_water_defaults(),
+})
+minetest.register_node("rocket:rocket_fuel_flowing", {
+	description = "Flowing Rocket Fuel",
+	drawtype = "flowingliquid",
+	tiles = {"rocket_rocket_fuel_source.png"},
+	special_tiles = {
+		{
+			name = "rocket_rocket_fuel_flowing_animated.png",
+			backface_culling = false,
+			animation = {
+				type = "vertical_frames",
+				aspect_w = 16,
+				aspect_h = 16,
+				length = 0.8,
+			},
+		},
+		{
+			name = "rocket_rocket_fuel_flowing_animated.png",
+			backface_culling = true,
+			animation = {
+				type = "vertical_frames",
+				aspect_w = 16,
+				aspect_h = 16,
+				length = 0.8,
+			},
+		},
+	},
+	alpha = 160,
+	paramtype = "light",
+	paramtype2 = "flowingliquid",
+	walkable = false,
+	pointable = false,
+	diggable = false,
+	buildable_to = true,
+	is_ground_content = false,
+	drop = "",
+	drowning = 1,
+	liquidtype = "flowing",
+	liquid_alternative_flowing = "rocket:rocket_fuel_flowing",
+	liquid_alternative_source = "rocket:rocket_fuel_source",
+	liquid_viscosity = 1,
+	post_effect_color = {a = 103, r = 254, g = 0, b = 30},
+	groups = {oil = 3, liquid = 1, flammable = 1, not_in_creative_inventory = 1},
+	sounds = default.node_sound_water_defaults(),
+})
+
+bucket.register_liquid(
+	"rocket:rocket_fuel_source",
+	"rocket:rocket_fuel_flowing",
+	"rocket:bucket_rocket_fuel",
+	"rocket_bucket_rocket_fuel.png",
+	"Rocket Fuel Bucket"
+)
+
+--Oil refinement recipe
+minetest.register_craft({
+    type = "cooking",
+    output = "rocket:bucket_rocket_fuel",
+    recipe = "rocket:bucket_oil",
+    cooktime = 5,
 })

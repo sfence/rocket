@@ -2,6 +2,8 @@
 
 Minetest has many great space mods that add in outer space thousands of blocks above the player. However, none of them have a good way to reach outer space-- until now. With this mod, you can craft rockets / space shuttles and fly them into and in outer space.
 
+The forum topic for this mod is [here](https://forum.minetest.net/viewtopic.php?f=9&t=23120). There, you can find a list of crafting recipes.
+
 ## Controls overview
 
 ### Vertical mode
@@ -31,7 +33,9 @@ The space shuttle has two modes: vertical mode and horizontal mode. In vertical 
 
 Place a Space Shuttle item down to place a space shuttle vehicle. A space shuttle will be placed in vertical mode. Right click on the space shuttle to enter/exit.
 
-I strongly recommend that you always use 3rd person mode when riding a rocket.
+The space shuttle has a life support system (provides you with oxygen), so you will be able to breath in the rocket in space or an unbreathable atmosphere.
+
+I strongly recommend that you always use 3rd person mode when riding a rocket. Also, if you crash into something at a high velocity, then your rocket explodes.
 
 ### Vertical mode
 You can move horizontally in vertical mode. Use A to yaw (turn) left, D to yaw right, W to go forwards in the direction you have yawed, and S to go backwards in that direction. These horizontal controls are not fast and exist mainly to make small adjustments in position; the main focus of vertical mode is moving or falling vertically.

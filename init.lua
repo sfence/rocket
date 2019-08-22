@@ -175,10 +175,12 @@ function rocket.on_step(self, dtime)
 			elseif ctrl.right then
 				self.rot = self.rot - 0.001
 			end
-			if (ctrl.jump or self.auto) and self.vy < 50 and (not self.auto) then
-				self.vy = self.vy + 0.075
-				--self.vy = self.vy + 7.5
-				
+			if ctrl.jump and (not self.auto) then
+        		if self.vy < 50 then
+					self.vy = self.vy + 0.075
+					--self.vy = self.vy + 7.5
+				end
+          		
 				minetest.add_particlespawner({
 					amount = 3, --1,
 					time = 0.2, --0.1,

@@ -43,6 +43,7 @@ local rocket = {
 	vy = 0,
 	rot = 0,
 	auto = false,
+	soundThrust = nil,
 }
 
 function rocket.on_punch(self, puncher)
@@ -56,6 +57,7 @@ function rocket.on_punch(self, puncher)
 		self.driver = nil
 		puncher:set_detach()
 		default.player_attached[name] = false
+		minetest.sound_stop(self.soundThrust)
 	end
 	if not self.driver then
 		-- Move to inventory
@@ -91,6 +93,7 @@ function rocket.on_rightclick(self, clicker)
 		minetest.after(0.1, function()
 			clicker:setpos(pos)
 		end)
+		minetest.sound_stop(self.soundThrust)
 	elseif not self.driver then
 		-- Attach
 		local attach = clicker:get_attach()
@@ -110,6 +113,8 @@ function rocket.on_rightclick(self, clicker)
 			default.player_set_animation(clicker, "stand" , 30)
 		end)
 		clicker:set_look_horizontal(self.object:getyaw())
+		self.soundThrust=minetest.sound_play({name="thrust"},{object = self.object, gain = 2.0, max_hear_distance = 32, loop = true,})
+		--minetest.sound_play({name="fire_fire.3.ogg"},{object = self.object, gain = 2.0, max_hear_distance = 32, loop = true,})
 		--[[
 		Fuel Display Hud (abandoned)
 		local fuel_display = clicker:hud_add({ --HUD
@@ -123,6 +128,10 @@ function rocket.on_rightclick(self, clicker)
 		clicker:hud_remove(fuel_display) --HUD
 		]]
 	end
+end
+
+on_activate = function(self, staticdata, dtime_s)
+	self.object:set_armor_groups({immortal = 1})
 end
 
 function rocket.on_step(self, dtime)
@@ -162,12 +171,13 @@ function rocket.on_step(self, dtime)
 			elseif ctrl.down then
 				self.v = self.v - 0.1
 			end
-			if ctrl.left and ctrl.right then
+			if ctrl.left and ctrl.right and self.vy < 10 then
 				local sideways_rocket = minetest.add_entity(self.object:getpos(), "rocket:sideways_rocket")
 				sideways_rocket:setyaw(self.object:getyaw())
 				default.player_set_animation(driver_objref, "sit" , 30)
 				driver_objref:set_detach()
 				driver_objref:set_attach(sideways_rocket, "", {x = 0, y = 1, z = 0}, {x = 0, y = 2, z = 0})
+				minetest.sound_stop(self.soundThrust)
 				self.object:remove()
 				--right click after pressing A+D to go into the sideways rocket
 			elseif ctrl.left then
@@ -176,11 +186,11 @@ function rocket.on_step(self, dtime)
 				self.rot = self.rot - 0.001
 			end
 			if ctrl.jump and (not self.auto) then
-        		if self.vy < 50 then
+				if self.vy < 50 then
 					self.vy = self.vy + 0.075
 					--self.vy = self.vy + 7.5
 				end
-          		
+				
 				minetest.add_particlespawner({
 					amount = 3, --1,
 					time = 0.2, --0.1,
@@ -370,18 +380,20 @@ function rocket.on_step(self, dtime)
 			sound = "tnt_explode",
 			explode_center = false,
 		})
+		minetest.sound_stop(self.soundThrust)
 		self.object:remove()
 	end
 
 	local p2 = self.object:getpos()
 	p2.y = p2.y + 5
-	if minetest.get_node(p2).name ~= "air" and minetest.get_node(p2).name ~= vacuum and self.vy > -10 then
+	if minetest.get_node(p2).name ~= "air" and minetest.get_node(p2).name ~= vacuum and self.vy > 10 then
 		tnt.boom(p2, {
 			radius = 3,
 			damage_radius = 6,
 			sound = "tnt_explode",
 			explode_center = false,
 		})
+		minetest.sound_stop(self.soundThrust)
 		self.object:remove()
 	end
 
@@ -414,6 +426,7 @@ local sideways_rocket = {
 	vy = 0,
 	rot = 0,
 	auto = false,
+	soundThrust = nil,
 }
 
 function sideways_rocket.on_punch(self, puncher)
@@ -427,6 +440,7 @@ function sideways_rocket.on_punch(self, puncher)
 		self.driver = nil
 		puncher:set_detach()
 		default.player_attached[name] = false
+		minetest.sound_stop(self.soundThrust)
 	end
 	if not self.driver then
 		-- Move to inventory
@@ -462,6 +476,7 @@ function sideways_rocket.on_rightclick(self, clicker)
 		minetest.after(0.1, function()
 			clicker:setpos(pos)
 		end)
+		minetest.sound_stop(self.soundThrust)
 	elseif not self.driver then
 		-- Attach
 		local attach = clicker:get_attach()
@@ -480,7 +495,12 @@ function sideways_rocket.on_rightclick(self, clicker)
 			default.player_set_animation(clicker, "sit" , 30)
 		end)
 		clicker:set_look_horizontal(self.object:getyaw())
+		self.soundThrust=minetest.sound_play({name="thrust"},{object = self.object, gain = 2.0, max_hear_distance = 32, loop = true,})
 	end
+end
+
+on_activate = function(self, staticdata, dtime_s)
+	self.object:set_armor_groups({immortal = 1})
 end
 
 function sideways_rocket.on_step(self, dtime)
@@ -536,12 +556,13 @@ function sideways_rocket.on_step(self, dtime)
 					texture = "rocket_boom.png",
 				})
 			end
-			if ctrl.left and ctrl.right then
+			if ctrl.left and ctrl.right and self.v < 10 then
 				local rocket = minetest.add_entity(self.object:getpos(), "rocket:rocket")
 				rocket:setyaw(self.object:getyaw())
 				default.player_set_animation(driver_objref, "stand" , 30)
 				driver_objref:set_detach()
 				driver_objref:set_attach(rocket, "", {x = 0, y = 1, z = 0}, {x = 0, y = 2, z = 0})
+				minetest.sound_stop(self.soundThrust)
 				self.object:remove()
 				--right click after pressing A+D to go into the rocket
 			elseif ctrl.left then
@@ -650,6 +671,7 @@ function sideways_rocket.on_step(self, dtime)
 	local p4 = self.object:getpos()
 	p4.x = p4.x - 2
 	if minetest.get_node(p1).name ~= "air" and minetest.get_node(p1).name ~= vacuum and self.v > 10 then
+		minetest.sound_stop(self.soundThrust)
 		self.object:remove()
 		if driver_objref then
 			default.player_set_animation(driver_objref, "stand" , 30)
@@ -662,6 +684,7 @@ function sideways_rocket.on_step(self, dtime)
 			explode_center = false,
 		})
 	elseif minetest.get_node(p2).name ~= "air" and minetest.get_node(p2).name ~= vacuum and self.v > 10 then
+		minetest.sound_stop(self.soundThrust)
 		self.object:remove()
 		if driver_objref then
 			default.player_set_animation(driver_objref, "stand" , 30)
@@ -674,6 +697,7 @@ function sideways_rocket.on_step(self, dtime)
 			explode_center = false,
 		})
 	elseif minetest.get_node(p3).name ~= "air" and minetest.get_node(p3).name ~= vacuum and self.v > 10 then
+		minetest.sound_stop(self.soundThrust)
 		self.object:remove()
 		if driver_objref then
 			default.player_set_animation(driver_objref, "stand" , 30)
@@ -686,6 +710,7 @@ function sideways_rocket.on_step(self, dtime)
 			explode_center = false,
 		})
 	elseif minetest.get_node(p4).name ~= "air" and minetest.get_node(p4).name ~= vacuum and self.v > 10 then
+		minetest.sound_stop(self.soundThrust)
 		self.object:remove()
 		if driver_objref then
 			default.player_set_animation(driver_objref, "stand" , 30)

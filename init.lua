@@ -275,8 +275,7 @@ function rocket.on_step(self, dtime)
 		end
 	end
 
---[[
-	if self.vy > 0 then
+	if self.vy > 0 and (not self.driver) then
 		minetest.add_particlespawner({
 			amount = 3, --1,
 			time = 0.2, --0.1,
@@ -293,9 +292,7 @@ function rocket.on_step(self, dtime)
 			attached = self.object,
 			texture = "rocket_smoke.png",
 		})
-	end
-
-	if self.vy > 0 then
+		
 		minetest.add_particlespawner({
 			amount = 1, --1,
 			time = 1.0, --0.1,
@@ -313,7 +310,6 @@ function rocket.on_step(self, dtime)
 			texture = "rocket_boom.png",
 		})
 	end
-]]
 
 	-- Early return for stationary vehicle
 	if self.v == 0 and self.rot == 0 and self.vy == 0 then
@@ -586,8 +582,7 @@ function sideways_rocket.on_step(self, dtime)
 		end
 	end
 
---[[
-	if self.v > 0 then
+	if self.v > 0 and (not self.driver) then
 		minetest.add_particlespawner({
 			amount = 1, --1,
 			time = 1.0, --0.1,
@@ -605,7 +600,6 @@ function sideways_rocket.on_step(self, dtime)
 			texture = "rocket_boom.png",
 		})
 	end
-]]
 
 	-- Early return for stationary vehicle
 	if self.v == 0 and self.rot == 0 and self.vy == 0 then

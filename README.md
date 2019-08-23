@@ -44,7 +44,7 @@ Hold space to move/accelerate upwards. At first, you will only move slightly up,
 
 Press space and shift at the same time to enable vertical cruise mode, and press shift by itself to disable it. Cruise mode automatically maintains your vertical velocity, rising or falling.
 
-Press A and D at the same time to switch to horizontal mode. After pressing A and D, right click once. If your head sticks out of the horizontal rocket, right click again twice very quickly to fix the glitch.
+Press A and D at the same time to switch to horizontal mode. You have to slow down the rocket to switch modes. After pressing A and D, right click once. If your head sticks out of the horizontal rocket, right click again twice very quickly to fix the glitch.
 
 ### Horizontal mode
 Unlike vertical mode, where the focus is on vertical movement, horizontal mode is focused on movement in all directions, but mainly forwards. Also unlike vertical mode, which is affected by gravity, horizontal mode is gravity free, since it is designed to work in space.
@@ -55,7 +55,7 @@ Press W and S at the same time to enable horizontal cruise mode, and press S by 
 
 Press space to go up and shift to go down. You cannot travel vertically nearly as fast as vertical mode, but horizontal mode is still useful for vertical movement.
 
-Press A and D at the same time to switch to vertical mode. After pressing A and D, right click once. To avoid any potential glitches, right click again twice very quickly. Be prepared to be affected by gravity again after you right click the first time.
+Press A and D at the same time to switch to vertical mode. You have to slow down the rocket to switch modes. After pressing A and D, right click once. To avoid any potential glitches, right click again twice very quickly. Be prepared to be affected by gravity again after you right click the first time.
 
 ## Inspirations
 * Kerbal Space Program (video game)
@@ -73,4 +73,4 @@ Press A and D at the same time to switch to vertical mode. After pressing A and 
 
 ## Licensing and Credit
 The code is licensed as MIT and the media as CC-BY-SA-3.0, except for "rocket.png", which is licensed as CC-BY-SA-4.0.
-This mod and all the models were made by Red_King_Cyclops, but several textures and much of code was made by other users. Almost all of the code is modified code from Paramat's [airboat](https://forum.minetest.net/viewtopic.php?t=20485) mod. The texture "rocket.png" is actually "submarine.png" renamed, taken from the [submarine](https://forum.minetest.net/viewtopic.php?f=9&t=16282) modpack by krokoschlange. Additionally, the textures "rocket_boom.png" and "rocket_smoke.png" are renamed textures taken from tnt and "rocket_hull.png" is a renamed texture taken from default. The oil textures and oil liquid registration code are taken from lib_materials by ShadMOrdre, except for the oil bucket texture, which is a modified water bucket texture from bucket. The rocket fuel textures (including the rocket fuel bucket texture) are modified water textures from default and bucket. The rest of the textures were made by me.
+This mod and all the models were made by Red_King_Cyclops, but several textures and much of code was made by other users. Almost all of the code is modified code from Paramat's [airboat](https://forum.minetest.net/viewtopic.php?t=20485) mod. The texture "rocket.png" is actually "submarine.png" renamed, taken from the [submarine](https://forum.minetest.net/viewtopic.php?f=9&t=16282) modpack by krokoschlange. Additionally, the textures "rocket_boom.png" and "rocket_smoke.png" are renamed textures taken from tnt and "rocket_hull.png" is a renamed texture taken from default. The oil textures and oil liquid registration code are taken from lib_materials by ShadMOrdre, except for the oil bucket texture, which is a modified water bucket texture from bucket. The rocket fuel textures (including the rocket fuel bucket texture) are modified water textures from default and bucket. The rest of the textures were made by me. The thrust sound is actually a renamed "fire_fire.3.ogg" taken from fire.

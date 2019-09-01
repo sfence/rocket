@@ -1087,5 +1087,5 @@ minetest.register_craft({
     type = "cooking",
     output = "rocket:bucket_rocket_fuel",
     recipe = "rocket:bucket_oil",
-    cooktime = 5,
+    --cooktime = 5,
 })

@@ -1089,3 +1089,11 @@ minetest.register_craft({
     recipe = "rocket:bucket_oil",
     --cooktime = 5,
 })
+
+--Rocket fuel as a fuel
+minetest.register_craft({
+	type = "fuel",
+	recipe = "rocket:bucket_rocket_fuel",
+	burntime = 80,
+	replacements = {{"rocket:bucket_rocket_fuel", "bucket:bucket_empty"}},
+})

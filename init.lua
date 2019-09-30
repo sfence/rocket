@@ -113,7 +113,7 @@ function rocket.on_rightclick(self, clicker)
 			default.player_set_animation(clicker, "stand" , 30)
 		end)
 		clicker:set_look_horizontal(self.object:getyaw())
-		self.soundThrust=minetest.sound_play({name="thrust"},{object = self.object, gain = 2.0, max_hear_distance = 32, loop = true,})
+		self.soundThrust=minetest.sound_play({name="thrust"},{object = self.object, gain = 2.0, max_hear_distance = 4, loop = true,}) --old: max_hear_distance = 32
 		--minetest.sound_play({name="fire_fire.3.ogg"},{object = self.object, gain = 2.0, max_hear_distance = 32, loop = true,})
 		--[[
 		Fuel Display Hud (abandoned)
@@ -370,7 +370,7 @@ function rocket.on_step(self, dtime)
 	local p1 = self.object:getpos()
 	p1.y = p1.y - 1
 	if minetest.get_node(p1).name ~= "air" and minetest.get_node(p1).name ~= vacuum and self.vy < -10 then
-		tnt.boom(p1, {
+		tnt.boom(p, {
 			radius = 3,
 			damage_radius = 6,
 			sound = "tnt_explode",
@@ -381,9 +381,11 @@ function rocket.on_step(self, dtime)
 	end
 
 	local p2 = self.object:getpos()
-	p2.y = p2.y + 5
+	p2.y = p2.y + 6
+	local p3 = self.object:getpos()
+	p3.y = p3.y + 4
 	if minetest.get_node(p2).name ~= "air" and minetest.get_node(p2).name ~= vacuum and self.vy > 10 then
-		tnt.boom(p2, {
+		tnt.boom(p3, {
 			radius = 3,
 			damage_radius = 6,
 			sound = "tnt_explode",
@@ -491,7 +493,7 @@ function sideways_rocket.on_rightclick(self, clicker)
 			default.player_set_animation(clicker, "sit" , 30)
 		end)
 		clicker:set_look_horizontal(self.object:getyaw())
-		self.soundThrust=minetest.sound_play({name="thrust"},{object = self.object, gain = 2.0, max_hear_distance = 32, loop = true,})
+		self.soundThrust=minetest.sound_play({name="thrust"},{object = self.object, gain = 2.0, max_hear_distance = 4, loop = true,})--old: max_hear_distance = 32
 	end
 end
 

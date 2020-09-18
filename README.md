@@ -2,6 +2,8 @@
 
 Minetest has many great space mods that add in outer space thousands of blocks above the player. However, none of them have a good way to reach outer space-- until now. With this mod, you can craft rockets / space shuttles and fly them into and in outer space.
 
+The forum topic for this mod is [here](https://forum.minetest.net/viewtopic.php?f=9&t=23120). There, you can find a list of crafting recipes.
+
 ## Controls overview
 
 ### Vertical mode
